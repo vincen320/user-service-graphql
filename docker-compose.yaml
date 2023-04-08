@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  postgresDB:
+    image: 'postgres:12.12'
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user_gql
+    volumes:
+      - psql_user:/var/lib/postgresql/data
+volumes:
+  psql_user:
