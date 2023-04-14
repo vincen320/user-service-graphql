@@ -51,3 +51,7 @@ func (u *userUseCase) CreateUser(ctx context.Context, request model.User) (user 
 	}
 	return u.userRepository.CreateUser(ctx, request)
 }
+
+func (u *userUseCase) Login(ctx context.Context, request model.UserLogin) (token string, err error) {
+	panic("Not Implemented") // TODO: Implement
+}

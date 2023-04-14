@@ -9,4 +9,9 @@ type (
 		Salary  float64 `json:"salary"`
 		Hobbies []Hobby `json:"hobbies"`
 	}
+
+	UserLogin struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
 )
