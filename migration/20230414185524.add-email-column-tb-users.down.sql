@@ -1,2 +1,2 @@
 ALTER TABLE users
-    DROP TABLE email;
+    DROP COLUMN email;
