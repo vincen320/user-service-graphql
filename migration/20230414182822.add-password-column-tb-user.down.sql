@@ -1,2 +1,2 @@
 ALTER TABLE users
-    DROP TABLE password;
+    DROP COLUMN password;
