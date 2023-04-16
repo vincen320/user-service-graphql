@@ -60,3 +60,37 @@ func (u *userGQL) CreateUser() *graphql.Field {
 		},
 	}
 }
+
+func (u *userGQL) Login() *graphql.Field {
+	return &graphql.Field{
+		Type: graphql.NewObject(graphql.ObjectConfig{
+			Name:        "token",
+			Description: "token response / this should be create separate from type for pretty, but this is for test",
+			Fields: graphql.Fields{
+				"token": &graphql.Field{
+					Type: graphql.String,
+					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+						tokenString, ok := p.Source.(string)
+						if ok {
+							return tokenString, nil
+						}
+						return "", nil
+					},
+				},
+			},
+		}),
+		Args: graphql.FieldConfigArgument{
+			"login": &graphql.ArgumentConfig{
+				Type: model.UserLoginParam,
+			},
+		},
+		Resolve: func(p graphql.ResolveParams) (response interface{}, err error) {
+			request, err := helper.DecodeRequest[model.UserLogin](p.Args["login"])
+			if err != nil {
+				return response, cError.New(http.StatusBadRequest, "invalid payload", "invalid payload received")
+			}
+			response, err = u.userUseCase.Login(p.Context, request)
+			return
+		},
+	}
+}

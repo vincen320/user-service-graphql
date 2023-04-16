@@ -2,10 +2,14 @@ package usecase
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 
+	cError "github.com/vincen320/user-service-graphql/helper/error"
 	"github.com/vincen320/user-service-graphql/model"
 	"github.com/vincen320/user-service-graphql/repository"
 	"github.com/vincen320/user-service-graphql/validator"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type userUseCase struct {
@@ -53,5 +57,22 @@ func (u *userUseCase) CreateUser(ctx context.Context, request model.User) (user 
 }
 
 func (u *userUseCase) Login(ctx context.Context, request model.UserLogin) (token string, err error) {
-	panic("Not Implemented") // TODO: Implement
+	err = validator.ValidateUserLogin(request)
+	if err != nil {
+		return
+	}
+	user, err := u.userRepository.FindUserByEmail(ctx, request.Email)
+	if err != nil {
+		return
+	}
+	if len(user) == 0 {
+		err = cError.New(http.StatusNotFound, fmt.Sprintf("user with %s email not found", request.Email), "user not found")
+		return
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user[0].Password), []byte(request.Password))
+	if err != nil {
+		err = cError.New(http.StatusUnauthorized, "wrong password", err.Error())
+		return
+	}
+	return user[0].GenerateJWTToken()
 }

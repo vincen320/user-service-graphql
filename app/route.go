@@ -30,7 +30,8 @@ func Run() {
 		mutationType = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Mutation",
 			Fields: graphql.Fields{
-				"user": userGQL.CreateUser(),
+				"user":  userGQL.CreateUser(),
+				"login": userGQL.Login(),
 			},
 		})
 

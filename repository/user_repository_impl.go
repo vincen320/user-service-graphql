@@ -26,6 +26,7 @@ func (u *userRepository) FindUsers(ctx context.Context) (response []model.User, 
 		`SELECT
 			id
 			, name
+			, email
 			, age
 			, address
 			, salary
@@ -43,6 +44,7 @@ func (u *userRepository) FindUsers(ctx context.Context) (response []model.User, 
 		if err = rows.Scan(
 			&user.ID,
 			&user.Name,
+			&user.Email,
 			&user.Age,
 			&user.Address,
 			&user.Salary,
@@ -56,10 +58,11 @@ func (u *userRepository) FindUsers(ctx context.Context) (response []model.User, 
 
 func (u *userRepository) FindUserByID(ctx context.Context, userID int64) (response []model.User, err error) {
 	var user model.User
-	if err = u.db.QueryRow(
+	err = u.db.QueryRow(
 		`SELECT
 			id
 			, name
+			, email
 			, age
 			, address
 			, salary
@@ -69,10 +72,46 @@ func (u *userRepository) FindUserByID(ctx context.Context, userID int64) (respon
 	).Scan(
 		&user.ID,
 		&user.Name,
+		&user.Email,
 		&user.Age,
 		&user.Address,
 		&user.Salary,
-	); err != nil {
+	)
+	if err == sql.ErrNoRows {
+		err = nil
+	}
+	if err != nil {
+		return response, cError.New(http.StatusInternalServerError, "internal server error", err.Error())
+	}
+	response = append(response, user)
+	return
+}
+
+func (u *userRepository) FindUserByEmail(ctx context.Context, userEmail string) (response []model.User, err error) {
+	var user model.User
+	err = u.db.QueryRow(
+		`SELECT
+			id
+			, name
+			, password
+			, age
+			, address
+			, salary
+		FROM users
+		WHERE email = $1`,
+		userEmail,
+	).Scan(
+		&user.ID,
+		&user.Name,
+		&user.Password,
+		&user.Age,
+		&user.Address,
+		&user.Salary,
+	)
+	if err == sql.ErrNoRows {
+		err = nil
+	}
+	if err != nil {
 		return response, cError.New(http.StatusInternalServerError, "internal server error", err.Error())
 	}
 	response = append(response, user)
@@ -83,11 +122,13 @@ func (u *userRepository) CreateUser(ctx context.Context, request model.User) (us
 	err = u.db.QueryRow(
 		`INSERT INTO users(
 			name
+			, email
 			, age
 			, address
 			, salary
-		)VALUES($1, $2, $3, $4) RETURNING id`,
+		)VALUES($1, $2, $3, $4, $5) RETURNING id`,
 		request.Name,
+		request.Email,
 		request.Age,
 		request.Address,
 		request.Salary,

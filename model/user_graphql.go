@@ -15,6 +15,9 @@ var (
 			"name": &graphql.Field{
 				Type: graphql.String,
 			},
+			"email": &graphql.Field{
+				Type: graphql.String,
+			},
 			"age": &graphql.Field{
 				Type: graphql.Int,
 			},
@@ -54,6 +57,9 @@ var (
 			"name": &graphql.InputObjectFieldConfig{
 				Type: graphql.NewNonNull(graphql.String),
 			},
+			"email": &graphql.InputObjectFieldConfig{
+				Type: graphql.NewNonNull(graphql.String),
+			},
 			"age": &graphql.InputObjectFieldConfig{
 				Type: graphql.NewNonNull(graphql.Int),
 			},
@@ -62,6 +68,19 @@ var (
 			},
 			"salary": &graphql.InputObjectFieldConfig{
 				Type: graphql.NewNonNull(graphql.Float),
+			},
+		},
+	})
+
+	UserLoginParam = graphql.NewInputObject(graphql.InputObjectConfig{
+		Name:        "UserLoginParam",
+		Description: "user login input params",
+		Fields: graphql.InputObjectConfigFieldMap{
+			"email": &graphql.InputObjectFieldConfig{
+				Type: graphql.NewNonNull(graphql.String),
+			},
+			"password": &graphql.InputObjectFieldConfig{
+				Type: graphql.NewNonNull(graphql.String),
 			},
 		},
 	})
