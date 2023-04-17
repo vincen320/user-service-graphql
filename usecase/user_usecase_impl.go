@@ -53,6 +53,12 @@ func (u *userUseCase) CreateUser(ctx context.Context, request model.User) (user 
 	if err != nil {
 		return
 	}
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
+	if err != nil {
+		err = cError.New(http.StatusInternalServerError, "internal server error", err.Error())
+		return
+	}
+	request.Password = string(hashedPassword)
 	return u.userRepository.CreateUser(ctx, request)
 }
 

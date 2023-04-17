@@ -60,6 +60,9 @@ var (
 			"email": &graphql.InputObjectFieldConfig{
 				Type: graphql.NewNonNull(graphql.String),
 			},
+			"password": &graphql.InputObjectFieldConfig{
+				Type: graphql.NewNonNull(graphql.String),
+			},
 			"age": &graphql.InputObjectFieldConfig{
 				Type: graphql.NewNonNull(graphql.Int),
 			},
