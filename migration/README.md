@@ -7,9 +7,9 @@
 | :--- | :--- | :--- |
 | `n` or `name` | `string` | **Optional**. Name of the file|
 
-It will generate 2 files has suffix `up` and `down`
-    - `up` is for make changes the database.
-    - `down` is for reverse the operations performed by the up method.
+It will generate 2 files has suffix `up` and `down`\
+- `up` is for make changes the database.
+- `down` is for reverse the operations performed by the up method.
 
 ## **Run the migration**
 > ./bin/app migration run {type} {times}
