@@ -1,13 +1,13 @@
 # **How to Use**
 
 ## **Create a new Migration**
-1. > ./bin/app migration new -n="filename"
+> ./bin/app migration new -n="filename"
 
 | Flags | Type | Description |
 | :--- | :--- | :--- |
 | `n` or `name` | `string` | **Optional**. Name of the file|
 
-2. It will generate 2 files has suffix `up` and `down`
+It will generate 2 files has suffix `up` and `down`
     - `up` is for make changes the database.
     - `down` is for reverse the operations performed by the up method.
 
