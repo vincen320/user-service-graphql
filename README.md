@@ -1,12 +1,13 @@
-# Documentation
+# **Documentation**
 This Application served on HTTP with GraphQL as the top of layer\
+and has built in SQL migration app\
 Base URL : `localhost:3000`
-## How to run
-### Prequisite
+## **How to run**
+### **Prequisite**
 1. \>= Go.1.18
 2. Docker
 
-## Steps
+### **Steps**
 1. Clone this repo
 > git clone git@github.com:vincen320/user-service-graphql.git
 2. Run docker
@@ -17,7 +18,8 @@ Base URL : `localhost:3000`
 5. Run the application
 > ./bin/app run
 
-### Test the Application
+## **Test the Application**
+Endpoint:
 ```http
 POST /v1/graphql
 ```
@@ -99,7 +101,7 @@ type CreateUserParam{
     Password: String!
     Age: Int!
     Address: String!
-    Salary: float!
+    Salary: Float!
 }
 
 type UserLoginParam{
