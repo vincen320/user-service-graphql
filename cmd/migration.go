@@ -65,11 +65,3 @@ var migrationCmd = &cobra.Command{
 		}
 	},
 }
-
-var appCmd = &cobra.Command{
-	Use:   "run",
-	Short: "run the service",
-	Run: func(cmd *cobra.Command, args []string) {
-		app.Run()
-	},
-}
