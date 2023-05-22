@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/graphql-go/graphql"
 	"github.com/labstack/echo/v4"
-	"github.com/vincen320/user-service-graphql/presenter"
+	"github.com/vincen320/user-service-graphql/handler"
 	"github.com/vincen320/user-service-graphql/repository"
 	"github.com/vincen320/user-service-graphql/usecase"
 )
@@ -13,11 +13,11 @@ func Run() {
 		db             = NewDB()
 		userRepository = repository.NewUserRepository(db)
 		userUseCase    = usecase.NewUserUseCase(userRepository)
-		userGQL        = presenter.NewUserGQL(userUseCase)
+		userGQL        = handler.NewUserGQL(userUseCase)
 
 		hobbyRepository = repository.NewHobbyRepository(db)
 		hobbyUseCase    = usecase.NewHobbyUseCase(hobbyRepository)
-		hobbyGQL        = presenter.NewHobbyGQL(hobbyUseCase)
+		hobbyGQL        = handler.NewHobbyGQL(hobbyUseCase)
 
 		queryType = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Query",
@@ -40,10 +40,10 @@ func Run() {
 			Mutation: mutationType,
 		})
 
-		graphqlPresenter = presenter.NewGraphqlPresenter(schema)
+		graphqlHandler = handler.NewGraphqlHandler(schema)
 	)
 	e := echo.New()
 	v1 := e.Group("v1")
-	v1.POST("/graphql", graphqlPresenter.GraphQL)
+	v1.POST("/graphql", graphqlHandler.GraphQL)
 	e.Start(":3000")
 }

@@ -1,4 +1,4 @@
-package presenter
+package handler
 
 import (
 	"github.com/graphql-go/graphql"

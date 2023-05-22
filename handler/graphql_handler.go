@@ -1,4 +1,4 @@
-package presenter
+package handler
 
 import (
 	"log"
@@ -11,18 +11,18 @@ import (
 	responseModel "github.com/vincen320/user-service-graphql/model/response"
 )
 
-type graphQLPresenter struct {
+type graphQLHandler struct {
 	graphqlSchema graphql.Schema
 }
 
-func NewGraphqlPresenter(
-	graphqlSchema graphql.Schema) *graphQLPresenter {
-	return &graphQLPresenter{
+func NewGraphqlHandler(
+	graphqlSchema graphql.Schema) *graphQLHandler {
+	return &graphQLHandler{
 		graphqlSchema: graphqlSchema,
 	}
 }
 
-func (g *graphQLPresenter) GraphQL(c echo.Context) (err error) {
+func (g *graphQLHandler) GraphQL(c echo.Context) (err error) {
 	var request model.GraphQLRequest
 	err = c.Bind(&request)
 	if err != nil {
