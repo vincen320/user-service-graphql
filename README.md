@@ -3,7 +3,7 @@ This Application served on HTTP with GraphQL as the top of layer\
 and has built in SQL migration app\
 Base URL : `localhost:3000`
 ## **How to run**
-### **Prequisite**
+### **Prereqquisite**
 1. \>= Go.1.18
 2. Docker
 
